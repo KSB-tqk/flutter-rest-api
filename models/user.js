@@ -9,6 +9,18 @@ var userSchema = new Schema({
     password: {
         type: String,
         require: true
+    },
+    uid: {
+        type: String,
+    },
+    role: {
+        type: Number,
+    },
+    dateOfBirth: {
+        type: String,
+    },
+    fullName: {
+        type: String,
     }
 })
 
