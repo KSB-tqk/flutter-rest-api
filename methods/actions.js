@@ -14,7 +14,7 @@ var functions = {
                 fullName: req.body.fullName,
                 dateOfBirth: req.body.dateOfBirth,
                 role: req.body.role,
-                uid: req.body.uid,
+                phoneNum: req.body.phoneNum,
             });
             newUser.save(function (err, newUser) {
                 if (err) {
@@ -61,6 +61,9 @@ var functions = {
             return res.json({ success: false, msg: 'No Headers' })
         }
     },
+    addNewItem: function (req, res) {
+
+    }
 }
 
 module.exports = functions

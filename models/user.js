@@ -10,8 +10,8 @@ var userSchema = new Schema({
         type: String,
         require: true
     },
-    uid: {
-        type: String,
+    phoneNum: {
+        type: Number,
     },
     role: {
         type: Number,
