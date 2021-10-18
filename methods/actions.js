@@ -1,6 +1,7 @@
 var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
+const { database } = require('../config/dbconfig')
 
 var functions = {
     addNew: function (req, res) {
@@ -61,9 +62,6 @@ var functions = {
             return res.json({ success: false, msg: 'No Headers' })
         }
     },
-    addNewItem: function (req, res) {
-
-    }
 }
 
 module.exports = functions

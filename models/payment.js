@@ -1,7 +1,8 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
-var itemSchema = new Schema({
-    name: {
+var ingredientSchema = require('./payment')
+var paymentSchema = new Schema({
+    staffName: {
         type: String,
         require: true,
     },
@@ -9,9 +10,9 @@ var itemSchema = new Schema({
         type: String,
         require: true,
     },
-    staffInfo: {
+    status: {
         type: String,
         require: true,
     },
-    
+    ingredients: [ingredientSchema]
 })
