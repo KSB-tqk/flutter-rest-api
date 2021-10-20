@@ -12,8 +12,7 @@ var ingredientService = {
             var newIngredient = new Ingredient({
                 ingredientName: req.body.ingredientName,
                 price: req.body.price,
-                amount: req.body.amount,
-                currency: req.body.currency,
+                unit: req.body.unit,
             });
             newIngredient.save(function (err, newIngredient) {
                 if (err) {
@@ -24,6 +23,19 @@ var ingredientService = {
                 }
             })
         }
+    },
+
+    getIngredient: async function (req, res) {
+        try {
+            const ingredient = await Ingredient.findOne({
+                _id: req.params.id
+            }).exec()
+            if (!ingredient) throw new Error("The Ingredient does not exist");
+            res.status(200).jsonp(ingredient);
+        } catch (e) {
+            res.status(403).send({ success: false, msg: e.toString() })
+        }
+
     }
 }
 module.exports = ingredientService
