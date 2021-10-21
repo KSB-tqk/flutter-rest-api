@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const ingredientSchema = require('../models/ingredient').schema;
+const ingredientSchema = require('./ingredient').schema;
 var Schema = mongoose.Schema;
 
 var requestDetailSchema = new Schema({
@@ -7,7 +7,10 @@ var requestDetailSchema = new Schema({
         type: Number,
         require: true
     },
-    ingredient: [ingredientSchema]
+    ingredient: {
+        type: ingredientSchema,
+        require: true
+    }
 })
 
 module.exports = mongoose.model('RequestDetail', requestDetailSchema)

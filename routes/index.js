@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 const action = require('../methods/actions')
 const router = express.Router()
 
@@ -18,6 +19,9 @@ router.post('/add', action.addNew)
 router.post('/authenticate', action.authenticate)
 //get info a user
 //route GET /getinfo 
-router.get('/getinfo', action.getinfo)
+router.get('/getinfo', action.getInfo)
+//get info a user
+//route GET /getinfo 
+router.get('/:id', passport.authenticate('jwt', { session: false }), action.getInfoById)
 
 module.exports = router

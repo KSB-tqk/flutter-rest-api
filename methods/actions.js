@@ -51,7 +51,7 @@ var functions = {
             }
         })
     },
-    getinfo: function (req, res) {
+    getInfo: function (req, res) {
         if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
             var token = req.headers.authorization.split(' ')[1]
             var decodedtoken = jwt.decode(token, config.secret)
@@ -63,6 +63,15 @@ var functions = {
             return res.json({ success: false, msg: 'No Headers' })
         }
     },
+    getInfoById: async function (req, res) {
+        try {
+            const user = await User.findOne({ _id: req.params.id }).exec()
+            if (!user) throw new Error("User does not exist")
+            res.status(200).jsonp(user)
+        } catch (e) {
+            res.status(403).send({ success: false, msg: e })
+        }
+    }
 }
 
 module.exports = functions

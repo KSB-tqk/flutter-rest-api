@@ -14,5 +14,6 @@ var ingredientSchema = new Schema({
         require: true,
     }
 })
+
 module.exports = mongoose.model('Ingredient', ingredientSchema)
 

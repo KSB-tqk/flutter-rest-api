@@ -1,14 +1,13 @@
-var RequestDetail = require('../models/requestDetail')
+var RequestDetail = require('../models/request_detail')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 const Ingredient = require("../models/ingredient");
 const { database } = require('../config/dbconfig')
 
-var detailRequestService = {
+var requestDetailService = {
     addNew: async function (req, res) {
 
         const ingredient = new Ingredient(req.body.ingredient);
-        await ingredient.save();
 
         var newRequestDetail = new RequestDetail({
             quantity: req.body.quantity,
@@ -36,4 +35,4 @@ var detailRequestService = {
     }
 }
 
-module.exports = detailRequestService
+module.exports = requestDetailService
