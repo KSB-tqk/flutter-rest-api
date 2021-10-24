@@ -1,15 +1,15 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const connectDB = require('./config/db')
+const connectDB = require('./src/config/db')
 const passport = require('passport')
 const bodyParser = require('body-parser')
 
 //
 //initialize routes
-const routes = require('./routes/index')
-const ingredientRoute = require('./routes/ingredient_route')
-const requestRoute = require('./routes/request_route')
+const routes = require('./src/routes/index')
+const ingredientRoute = require('./src/routes/ingredient_route')
+const requestRoute = require('./src/routes/request_route')
 
 connectDB()
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(passport.initialize())
-require('./middleware/passport')(passport)
+require('./src/middleware/passport')(passport)
 
 app.use('/user', routes)
 app.use('/ingredient', ingredientRoute)
