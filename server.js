@@ -9,7 +9,6 @@ const bodyParser = require('body-parser')
 //initialize routes
 const routes = require('./routes/index')
 const ingredientRoute = require('./routes/ingredient_route')
-const reqDetailRoute = require('./routes/request_detail_route')
 const requestRoute = require('./routes/request_route')
 
 connectDB()
@@ -29,7 +28,6 @@ require('./middleware/passport')(passport)
 
 app.use('/user', routes)
 app.use('/ingredient', ingredientRoute)
-app.use('/request-detail', reqDetailRoute)
 app.use('/request', requestRoute)
 
 const PORT = process.env.PORT || 3000

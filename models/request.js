@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-const requestDetailSchema = require('./request_detail').schema
+const ingredientSchema = require('./ingredient').schema
 const userSchema = require('./user').schema
 var Schema = mongoose.Schema
 
@@ -16,7 +16,16 @@ requestSchema = new Schema({
         type: String,
         require: true,
     },
-    ingredientDetail: [{ type: requestDetailSchema, require: true }],
+    ingredientDetail: [{
+        quantity: {
+            type: Number,
+            require: true,
+        },
+        ingredient: {
+            type: ingredientSchema,
+            require: true,
+        }
+    }],
     total: {
         type: Number,
         require: true,
