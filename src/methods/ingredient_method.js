@@ -2,18 +2,23 @@ var Ingredient = require('../models/ingredient')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
 const { database } = require('../config/dbconfig')
+const mongoose = require('mongoose')
 
 var ingredientService = {
     addNew: async function (req, res) {
+
         let ingredientDB = await Ingredient.findOne({ ingredientName: req.body.ingredientName });
         if (ingredientDB) {
             res.json({ success: false, msg: 'Ingredient already exist' })
         } else {
-            var newIngredient = new Ingredient({
+            Ingredient.init()
+            let newIngredient = new Ingredient({
+                _id: new mongoose.Types.ObjectId().toHexString(),
                 ingredientName: req.body.ingredientName,
                 price: req.body.price,
                 unit: req.body.unit,
             });
+
             newIngredient.save(function (err, newIngredient) {
                 if (err) {
                     res.json({ success: false, msg: 'Failed to save ingredient ' + err })

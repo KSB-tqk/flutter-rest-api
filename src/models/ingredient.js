@@ -1,6 +1,10 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema;
 var ingredientSchema = new Schema({
+    _id: {
+        type: String,
+        require: true,
+    },
     ingredientName: {
         type: String,
         require: true,
@@ -14,6 +18,5 @@ var ingredientSchema = new Schema({
         require: true,
     }
 })
-
 module.exports = mongoose.model('Ingredient', ingredientSchema)
 
