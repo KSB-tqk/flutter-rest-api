@@ -16,6 +16,10 @@ requestSchema = new Schema({
         type: String,
         require: true,
     },
+    status: {
+        type: String,
+        require: true,
+    },
     ingredientDetail: [{
         quantity: {
             type: Number,
