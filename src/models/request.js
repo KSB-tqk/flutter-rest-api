@@ -5,7 +5,7 @@ var Schema = mongoose.Schema
 
 requestSchema = new Schema({
     type: {
-        type: String,
+        type: Number,
         require: true,
     },
     date: {
@@ -17,7 +17,7 @@ requestSchema = new Schema({
         require: true,
     },
     status: {
-        type: String,
+        type: Number,
         require: true,
     },
     ingredientDetail: [{
