@@ -24,7 +24,7 @@ var requestService = {
 
     getRequestByDate: async function (req, res) {
         try {
-            Request.find({ date: req.body.date, status: req.body.status, type: req.body.type }, function (err, requestDb) {
+            Request.find({ date: req.query.date, status: req.query.status, type: req.query.type }, function (err, requestDb) {
                 var requestMap = {};
 
                 requestDb.forEach(function (request) {
