@@ -13,7 +13,6 @@ var ingredientService = {
         } else {
             Ingredient.init()
             let newIngredient = new Ingredient({
-                _id: new mongoose.Types.ObjectId().toHexString(),
                 ingredientName: req.body.ingredientName,
                 price: req.body.price,
                 unit: req.body.unit,

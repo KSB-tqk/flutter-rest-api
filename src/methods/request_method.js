@@ -3,14 +3,7 @@ const Ingredient = require('../models/ingredient')
 var requestService = {
     addNew: async function (req, res) {
 
-        var newRequest = new Request({
-            type: req.body.type,
-            date: req.body.date,
-            status: req.body.status,
-            staffId: req.body.staffId,
-            ingredientDetail: req.body.ingredientDetail,
-            total: req.body.total,
-        });
+        var newRequest = new Request(req.body);
 
         newRequest.save(function (err, newRequest) {
             if (err) {
