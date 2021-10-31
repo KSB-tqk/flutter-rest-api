@@ -1,6 +1,5 @@
 var mongoose = require('mongoose')
 const ingredientSchema = require('./ingredient').schema
-const userSchema = require('./user').schema
 var Schema = mongoose.Schema
 
 requestSchema = new Schema({
@@ -13,8 +12,9 @@ requestSchema = new Schema({
         require: true,
     },
     staffId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         require: true,
+        ref: 'User'
     },
     status: {
         type: Number,
