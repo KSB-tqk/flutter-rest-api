@@ -1,5 +1,5 @@
 const express = require('express')
-const request_method = require('../methods/request_method')
+const request_method = require('../controllers/request_controller')
 const router = express.Router()
 
 //add new request 

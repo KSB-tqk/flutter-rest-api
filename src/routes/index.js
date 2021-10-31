@@ -1,6 +1,6 @@
 const express = require('express')
 const passport = require('passport')
-const action = require('../methods/actions')
+const action = require('../controllers/staff_controller')
 const router = express.Router()
 
 router.get('/', (req, res) => {

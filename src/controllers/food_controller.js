@@ -22,6 +22,17 @@ var foodService = {
             })
         }
     },
+    getFood: async function (req, res){
+        try {
+            const food = await Food.findOne({
+                _id: req.params.id
+            }).exec()
+            if (!food) throw new Error("The Food does not exist");
+            res.status(200).json(food);
+        } catch (e) {
+            res.status(403).send({success: false, msg: e.toString()})
+        }
+    }
 }
 
 module.exports = foodService

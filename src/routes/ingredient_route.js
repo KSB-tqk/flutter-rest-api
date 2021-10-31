@@ -1,5 +1,5 @@
 const express = require('express')
-const ingredient_method = require('../methods/ingredient_method')
+const ingredient_method = require('../controllers/ingredient_controller')
 const router = express.Router()
 const passport = require('passport')
 
