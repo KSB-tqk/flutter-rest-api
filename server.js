@@ -10,6 +10,8 @@ const bodyParser = require('body-parser')
 const routes = require('./src/routes/index')
 const ingredientRoute = require('./src/routes/ingredient_route')
 const requestRoute = require('./src/routes/request_route')
+const foodRoute = require('./src/routes/food_route')
+const resBillRoute = require('./src/routes/restaurant_bill_route')
 
 connectDB()
 
@@ -29,6 +31,8 @@ require('./src/middleware/passport')(passport)
 app.use('/user', routes)
 app.use('/ingredient', ingredientRoute)
 app.use('/request', requestRoute)
+app.use('/food', foodRoute)
+app.use('/resbill', resBillRoute)
 
 const PORT = process.env.PORT || 3000
 

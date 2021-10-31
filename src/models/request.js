@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 const ingredientSchema = require('./ingredient').schema
-const userSchema = require('./user').schema
+const userSchema = require('./staff').schema
 var Schema = mongoose.Schema
 
 requestSchema = new Schema({
