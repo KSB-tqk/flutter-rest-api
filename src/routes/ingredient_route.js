@@ -8,6 +8,10 @@ const passport = require('passport')
 router.post('/add', passport.authenticate('jwt', { session: false }), ingredient_method.addNew)
 //get user
 //route GET /getIngredient
+router.get('/', ingredient_method.getAllIngre)
+
 router.get('/:id', ingredient_method.getIngredient)
+
+
 
 module.exports = router

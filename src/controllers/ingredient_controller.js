@@ -40,6 +40,14 @@ var ingredientService = {
             res.status(403).send({ success: false, msg: e.toString() })
         }
 
+    },
+    getAllIngre: async function (req, res){
+        try {
+            var ingredients = await Ingredient.find().exec();
+            res.status(200).json(ingredients)     
+        } catch (e) {
+            res.status(403).send({ success: false, msg: e.toString()})
+        }
     }
 }
 module.exports = ingredientService
