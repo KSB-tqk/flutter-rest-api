@@ -32,7 +32,20 @@ var foodService = {
         } catch (e) {
             res.status(403).send({success: false, msg: e.toString()})
         }
-    }
+    },
+    getAllFood: async function (req, res){
+            try {
+                Food.find({} ,function(err, foodDB){
+                    var foodMap ={}
+                    foodDB.forEach(function (request){
+                        foodMap[request._id] = request
+                    })
+                    res.status(200).send(foodMap)
+                })
+            } catch (e) {
+                res.status(403).send({ success: false, msg: e.toString() })
+            }
+        }
 }
 
 module.exports = foodService

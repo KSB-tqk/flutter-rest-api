@@ -8,6 +8,10 @@ const passport = require('passport')
 router.post('/add', passport.authenticate('jwt', {session: false}), food_controller.addNew)
 
 //route GET /getFood
+router.get('/', food_controller.getAllFood)
+
 router.get('/:id', food_controller.getFood)
+
+
 
 module.exports = router
