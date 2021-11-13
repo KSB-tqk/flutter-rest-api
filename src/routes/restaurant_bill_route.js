@@ -10,4 +10,7 @@ router.post('/add', restaurant_bill_controller.addNew)
 // route GET /filter
 router.get('/filter', restaurant_bill_controller.getBillByStatus)
 
+//UPDATE bill status
+router.patch('/:id', restaurant_bill_controller.updateBillStatus)
+
 module.exports = router

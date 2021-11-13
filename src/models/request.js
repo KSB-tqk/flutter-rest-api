@@ -7,8 +7,12 @@ requestSchema = new Schema({
         type: Number,
         require: true,
     },
-    date: {
+    nameRequest:{
         type: String,
+        required: true,
+    },
+    date: {
+        type: Date,
         require: true,
     },
     staffId: {

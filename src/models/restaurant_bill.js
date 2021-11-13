@@ -7,13 +7,17 @@ var resBillSchema = new Schema({
     status:{
         type: Number,
         required: true,
+        validate: {
+            validator: Number.isInteger,
+            message: "{VALUE} is not an interger value",
+        }
     },
     date:{
         type: String,
         required: true,
     },
     staffID: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
     }, 
