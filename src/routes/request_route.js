@@ -10,5 +10,7 @@ router.post('/add', request_method.addNew)
 router.get('/import', request_method.getRequestByDate)
 // get type of request
 router.get('/type', request_method.getTypeofRequest)
+// get status of request
+router.get('/status', request_method.getStatusTypeofRequest)
 
 module.exports = router
