@@ -8,5 +8,7 @@ router.post('/add', request_method.addNew)
 //find import request by date
 //route /:date
 router.get('/import', request_method.getRequestByDate)
+// get type of request
+router.get('/type', request_method.getTypeofRequest)
 
 module.exports = router
