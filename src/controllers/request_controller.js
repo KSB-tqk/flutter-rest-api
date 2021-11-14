@@ -41,6 +41,18 @@ const requestService = {
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
         }
+    },
+
+    getStatusTypeofRequest: async function (req, res){
+        try {
+          const requestDB = await Request.find({ type: req.query.type, status: req.query.status}).populate("staffId").exec();
+        //    for(let request in requestDB){
+        //     request.staffId = await Staff.findById(request.staffId)
+        //    }            
+          return res.status(200).json(requestDB);
+        } catch (e) {
+            res.status(403).send({ success: false, msg: e.toString() })
+        }
     }
 }
 
