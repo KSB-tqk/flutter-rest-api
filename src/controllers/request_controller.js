@@ -53,6 +53,14 @@ const requestService = {
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
         }
+    },
+    getAllRequest: async function(req, res){
+        try{
+            const requestDB = await Request.find().populate("staffId").exec();
+            return res.status(200).json(requestDB);
+        } catch (e){
+            res.status(403).send({ success: false, msg: e.toString() })
+        }
     }
 }
 
