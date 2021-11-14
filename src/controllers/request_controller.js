@@ -1,3 +1,4 @@
+const Staff = require('../models/staff')
 const Request = require('../models/request')
 const Ingredient = require('../models/ingredient')
 const requestService = {
@@ -32,14 +33,11 @@ const requestService = {
 
     getTypeofRequest: async function (req, res){
         try {
-            Request.find({ type: req.query.type }, function (err, requestDb) {
-                var requestMap = {};
-
-                requestDb.forEach(function (request) {
-                    requestMap[request._id] = request;
-                });
-                res.status(200).send(requestMap);
-            });
+          const requestDB = await Request.find({ type: req.query.type}).populate("staffId").exec();
+        //    for(let request in requestDB){
+        //     request.staffId = await Staff.findById(request.staffId)
+        //    }            
+          return res.status(200).json(requestDB);
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
         }

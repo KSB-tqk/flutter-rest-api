@@ -21,7 +21,7 @@ var userSchema = new Schema({
     },
     fullName: {
         type: String,
-    }
+    },
 })
 
 userSchema.pre('save', function (next) {
@@ -52,5 +52,11 @@ userSchema.methods.comparePassword = function (passw, cb) {
         }
     })
 }
+
+userSchema.methods.toJSON = function () {
+    const userObject = this.toObject();
+    delete userObject.password;
+    return userObject;
+};
 
 module.exports = mongoose.model('User', userSchema)
