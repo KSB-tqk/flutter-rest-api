@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const Staff = require('../models/staff')
 const Request = require('../models/request')
 const Ingredient = require('../models/ingredient')
@@ -60,6 +61,19 @@ const requestService = {
             return res.status(200).json(requestDB);
         } catch (e){
             res.status(403).send({ success: false, msg: e.toString() })
+        }
+    },
+    updateRequest: async function (req, res){
+        const { id } = req.params;
+        const { status } = req.body;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({msg: `No request Request with id: ${id}`});
+        }
+        try{
+            await Request.findByIdAndUpdate(id, {$set: {status},});
+            res.status(201).json({msg: "Update request success"});
+        } catch (err){
+            res.status(409).json({ msg: error.message });
         }
     }
 }
