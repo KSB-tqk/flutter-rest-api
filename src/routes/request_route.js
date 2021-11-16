@@ -14,5 +14,6 @@ router.get('/import', request_method.getRequestByDate)
 router.get('/type', request_method.getTypeofRequest)
 // get status of request
 router.get('/status', request_method.getStatusTypeofRequest)
-
+// update status request
+router.patch('/:id', request_method.updateRequest);
 module.exports = router

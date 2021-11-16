@@ -45,7 +45,21 @@ var foodService = {
             } catch (e) {
                 res.status(403).send({ success: false, msg: e.toString() })
             }
+    },
+    updateFood: async function (req, res){
+        const {id} = req.params;
+        const{foodPrice} = req.body;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({msg: `No food with id: ${id}`});
         }
+        try {
+            await Food.findByIdAndUpdate(id, {$set: {foodPrice},});
+            res.status(200).json({msg: "Update food is success"});
+        } catch (err){
+            res.status(409).json({ msg: err.message });
+        }
+    }
 }
 
 module.exports = foodService

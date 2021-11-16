@@ -12,6 +12,9 @@ router.get('/', food_controller.getAllFood)
 
 router.get('/:id', food_controller.getFood)
 
+// update food
+router.patch('/:id', food_controller.updateFood)
+
 
 
 module.exports = router
