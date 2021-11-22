@@ -1,12 +1,16 @@
 const express = require('express')
-const room_controller = require('../controllers/room_controller')
+const {roomService, bookingService} = require('../controllers/room_controller')
 const router = express.Router()
 
-router.post('/', room_controller.addRoom);
-router.get('/', room_controller.getAllRoom);
+const routerBooking = express.Router({mergeParams: true})
 
-router.patch('/:id', room_controller.insertBooked);
+router.post('/', roomService.addRoom);
+router.get('/', roomService.getAllRoom);
 
+router.patch('/:id', bookingService.insertBooking);
+
+router.use('/:id/booking', routerBooking);
+routerBooking.delete('/', bookingService.deleteBooking);
 
 
 module.exports = router
