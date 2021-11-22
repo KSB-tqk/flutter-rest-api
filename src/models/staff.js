@@ -53,6 +53,7 @@ userSchema.methods.comparePassword = function (passw, cb) {
     })
 }
 
+// hide password 
 userSchema.methods.toJSON = function () {
     const userObject = this.toObject();
     delete userObject.password;

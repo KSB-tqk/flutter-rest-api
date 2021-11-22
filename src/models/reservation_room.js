@@ -8,7 +8,7 @@ const reservationRoomSchema = new Schema({
         ref: 'User',
     },
     dateCreate: {
-        type: String,
+        type: Date,
         required: true,
     },
     customerName:{
@@ -20,11 +20,11 @@ const reservationRoomSchema = new Schema({
         required: true,
     },
     checkIn: {
-        type: String,
+        type: Date,
         required: true,
     },
     checkOut:{
-        type: String,
+        type: Date,
         required: true,
     },
 })
