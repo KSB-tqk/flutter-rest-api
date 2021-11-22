@@ -3,7 +3,7 @@ const reservationRoomSchema = require('./reservation_room').schema
 const Schema = mongoose.Schema;
 
 const roomSchema = new Schema({
-    nameRoom:{
+    roomName:{
         type: String,
         required: true,
     },
