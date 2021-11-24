@@ -10,7 +10,7 @@ const roomService = {
         await newRoom.save();
         res.status(201).json({msg: "Create room success"});
         } catch (err){
-            res.status(400).json({msg: err.msg});
+            res.status(400).json({msg: err.message});
         }
     },
     getAllRoom: async function(req, res){
@@ -24,7 +24,15 @@ const roomService = {
             console.log(e)
         }
     },
-    
+    getRoomDetail: async function(req, res){
+        const {id} = req.params;
+        try{
+            const roomDB = await Room.findById(id).populate({path: "bookings", model: 'ReservationRoom', populate: {path: 'staffId', model: 'User'}});
+            return res.status(200).json(roomDB);
+        } catch (err) {
+            res.status(404).json({msg: err.message});
+        }
+    }
     
 }
 
