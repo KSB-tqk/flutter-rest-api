@@ -35,6 +35,10 @@ const reservationRoomSchema = new Schema({
     paidStatus:{
         type: Number,
         default: 2,
+    },
+    totalPrice:{
+        type: Number,
+        required: true,
     }
 })
 
