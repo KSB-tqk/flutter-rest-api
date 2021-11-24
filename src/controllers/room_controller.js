@@ -16,7 +16,7 @@ const roomService = {
     getAllRoom: async function(req, res){
         try{
             
-            const roomDB = await Room.find().populate({path: "booked", model: 'ReservationRoom', populate: {path: 'staffId', model: 'User'}}).exec();
+            const roomDB = await Room.find().populate({path: "bookings", model: 'ReservationRoom', populate: {path: 'staffId', model: 'User'}});
             console.log(roomDB)
             return res.status(200).json(roomDB);
         } catch (e){
@@ -36,15 +36,27 @@ const roomService = {
             return res.status(404).json({msg: `No Room with id: ${id}`});
         }
         try{
-            const room = await Room.findById(id);
-            const reservation = new reservationRoom(req.body);
+            const reservation = new reservationRoom({room: id,...req.body});
             console.log(reservation);
             await reservation.save();
-            room.booked.push(reservation);
-            await room.save();
             res.status(201).json({msg: "Update Room success"});
         } catch (err){
             res.status(409).json({ msg: err.message });
+        }
+    },
+    updatePaidStatus: async function(req, res){
+        const {id} = req.params;
+        const {paidStatus} = req.body;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({msg: `No Reservation with id: ${id}`});
+           
+        }
+        try{
+            await reservationRoom.findByIdAndUpdate(id, {$set: {paidStatus},});
+            res.status(201).json({msg: "Update request success"});
+        } catch (err){
+            res.status(409).json({msg: err.message});
         }
     },
     deleteBooking: async function(req, res){
