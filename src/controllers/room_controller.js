@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Room = require('../models/room')
-const reservationRoom = require('../models/reservation_room')
+const reservationRoom = require('../models/reservation_room');
+const room = require('../models/room');
 
 const roomService = {
     addRoom: async function(req, res) {
@@ -27,7 +28,13 @@ const roomService = {
     getRoomDetail: async function(req, res){
         const {id} = req.params;
         try{
-            const roomDB = await Room.findById(id).populate({path: "bookings", model: 'ReservationRoom', populate: {path: 'staffId', model: 'User'}});
+            const roomDB = await Room.findById(id).populate({path: "bookings", model: 'ReservationRoom', populate: [{path: 'staffId', model: 'User'}]});
+            console.log(roomDB.bookings.length);
+            for(let i =0; i < roomDB.bookings.length; i++){
+                roomDB.bookings[i]=roomDB.bookings[i].toObject();
+                roomDB.bookings[i].roomName = roomDB.roomName;
+                console.log(roomDB.bookings[i]);
+            }
             return res.status(200).json(roomDB);
         } catch (err) {
             res.status(404).json({msg: err.message});
@@ -37,6 +44,15 @@ const roomService = {
 }
 
  const bookingService = {
+    getReservationDetail: async function(req, res){
+        const {id} = req.params;
+        try{
+            const reservationDB = await reservationRoom.findById(id).populate("room");
+            return res.status(200).json(reservationDB);
+        } catch (err) {
+            res.status(404).json({msg: err.message});
+        }
+    },
     insertBooking: async function(req, res){
         const {id} = req.params;
 
@@ -75,7 +91,7 @@ const roomService = {
         try{
             const reservation = await reservationRoom.findByIdAndRemove(id);
             await reservation.save();
-            res.status(404).json({msg: "Delete booking success"});
+            res.status(201).json({msg: "Delete booking success"});
         } catch(err){
             res.status(409).json({msg: err.message});
         }
