@@ -17,33 +17,26 @@ const roomService = {
     getAllRoom: async function(req, res){
         try{
             
-            const roomDB = await Room.find().populate({path: "bookings", model: 'ReservationRoom', populate: {path: 'staffId', model: 'User'}});
-            console.log(roomDB)
+            const roomDB = await Room.find().exec();
             return res.status(200).json(roomDB);
         } catch (e){
             res.status(403).send({ success: false, msg: e.toString() });
             console.log(e)
         }
     },
-    getRoomDetail: async function(req, res){
-        const {id} = req.params;
-        try{
-            const roomDB = await Room.findById(id).populate({path: "bookings", model: 'ReservationRoom', populate: [{path: 'staffId', model: 'User'}]});
-            console.log(roomDB.bookings.length);
-            for(let i =0; i < roomDB.bookings.length; i++){
-                roomDB.bookings[i]=roomDB.bookings[i].toObject();
-                roomDB.bookings[i].roomName = roomDB.roomName;
-                console.log(roomDB.bookings[i]);
-            }
-            return res.status(200).json(roomDB);
-        } catch (err) {
-            res.status(404).json({msg: err.message});
-        }
-    }
     
 }
 
  const bookingService = {
+    getAllReservationByRoomId: async function(req, res) {
+        const{id} = req.params;
+        try{
+            const roomDB = await reservationRoom.find({room: id}).populate( [{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
+            return res.status(200).json(roomDB);
+        } catch (e){
+            res.status(403).send({ success: false, msg: e.toString() });
+        }
+    },
     getReservationDetail: async function(req, res){
         const {id} = req.params;
         try{
