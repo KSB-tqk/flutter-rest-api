@@ -12,9 +12,9 @@ router.get('/room_detail/:id', roomService.getRoomDetail);
 
 router.patch('/:id', bookingService.insertBooking);
 
-router.use('/:id/booking', routerBooking);
-routerBooking.delete('/', bookingService.deleteBooking);
-routerBooking.patch('/update_paid_status', bookingService.updatePaidStatus);
+router.use('/booking', routerBooking);
+routerBooking.delete('/:id', bookingService.deleteBooking);
+routerBooking.patch('/update_paid_status/:id', bookingService.updatePaidStatus);
 
 
-module.exports = router
+module.exports = router 
