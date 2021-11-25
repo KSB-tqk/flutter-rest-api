@@ -69,25 +69,12 @@ const roomService = {
     },
     deleteBooking: async function(req, res){
         const {id} = req.params;
-        const {reservationId} = req.body;
-
         if(!mongoose.Types.ObjectId.isValid(id)){
-            return res.status(404).json({msg: `No Room with id: ${id} `});
-            
-        }
-        if(!mongoose.Types.ObjectId.isValid(reservationId)){
-            return res.status(404).json({msg: `No Booking with id: ${reservationId} `});
+            return res.status(404).json({msg: `No Booking with id: ${id} `});
         }
         try{
-            const room = await Room.findById(id);
-            await room.booked.pull(reservationId);
-            try{
-                const reservation = await reservationRoom.findByIdAndRemove(reservationId);
-                await reservation.save();
-            } catch (e){
-                console.log(e.message);
-            }
-            await room.save();
+            const reservation = await reservationRoom.findByIdAndRemove(id);
+            await reservation.save();
             res.status(404).json({msg: "Delete booking success"});
         } catch(err){
             res.status(409).json({msg: err.message});
