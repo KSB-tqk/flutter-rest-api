@@ -6,16 +6,11 @@ const entertainmentSchema = new Schema({
         type: String, 
         required: true,
     },
-    typeTicket: {
+    typeTicket: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:'TypeTicketEntertainment',
         required: true,
-    },
-    adultPrice:{
-        type: Number,
-        required: true,
-    },
-    
+    }],
 });
 
 
