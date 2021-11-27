@@ -3,16 +3,17 @@ const entertainmentSchema = require('./entertaiment').schema
 const Schema = mongoose.Schema
 
 const entertainmentBillSchema = new Schema({
-    status:{
-        type: Number,
+    staff:{
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
+        ref: 'User',
     },
-    date:{
-        type: String,
+    dateCreate:{
+        type: Date,
         required: true,
     },
     entertainBillDetail: [{
-        food: {
+        entertainment: {
             type: entertainmentSchema,
             required: true,
         },

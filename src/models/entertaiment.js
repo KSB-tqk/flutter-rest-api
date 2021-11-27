@@ -6,10 +6,17 @@ const entertainmentSchema = new Schema({
         type: String, 
         required: true,
     },
-    entertainPrice:{
-        type: String,
+    typeTicket: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'TypeTicketEntertainment',
         required: true,
-    }
-})
+    },
+    adultPrice:{
+        type: Number,
+        required: true,
+    },
+    
+});
+
 
 module.exports = mongoose.model('Entertainment', entertainmentSchema)
