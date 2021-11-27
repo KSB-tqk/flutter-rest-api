@@ -1,28 +1,90 @@
-const Entertainment = require('../models/entertaiment')
+const Entertainment = require('../models/entertaiment');
+const EntertainmentBill = require('../models/entertainment_bill');
+const TypeTicketEntertainment = require('../models/type_ticket_entertainment');
+const mongoose = require('mongoose');
 
-var entertainmentService = {
-    addNew: async function (req, res){
-        let entertainDB = await Entertainment.findOne({entertainmentName: req.body.entertainmentName})
-        if(entertainDB){
-            res.json({success: false, msg: 'Entertainment already exits'})
-        }
-        else {
-            Entertainment.init()
-            var newEntertainment = new Entertainment({
-                entertainmentName: req.body.entertainmentName,
-                entertainmentPrice: req.body.entertainmentPrice,
-            })
-
-            newEntertainment.save(function(err, newEntertainment){
-                if(err){
-                    res.json({success: false, msg: 'Failed to Save New Entertainment' + err})
-                } else {
-                    res.json({success: true, msg: 'Save Entertainment Successfully!' })
+const entertainmentService = {
+    add_entertainment: async function (req, res){
+            try{
+                var newEntertainment = new Entertainment(req.body);
+        
+                await newEntertainment.save();
+                res.status(201).json({msg: "Create Entertainment success"});
+                } catch (err){
+                    res.status(400).json({msg: err.message});
                 }
-            })
+    },
+    update_entertainment: async function(req, res){
+        const{id} = req.params;
+        const{entertainName, entertainPrice} = req.body;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No entertainment with id: ${id}`});
+        }
+        try{
+            await Entertainment.findByIdAndUpdate(id, {$set: {entertainName: entertainName, entertainPrice: entertainPrice}});
+            res.status(200).json({message: 'Update Entertainment sucess'});
+        } catch (err){
+            return res.status(409).json({message: err.message});
         }
     },
+    delete_entertainment: async function(req, res){
+        const{id} = req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No entertainment with id: ${id}`});
+        }
+        try{
+            await Entertainment.findByIdAndRemove(id);
+            res.status(200).json({message: 'Remove Entertainment success'});
+        } catch (e){
+            return res.status(409).json({message: err.message});
+        }
+    },
+    get_all_entertainment: async function(req, res){
+        try{
+            const entertainmentDB = await Entertainment.find().populate("typeTicket").lean().exec();
+            for(let i of entertainmentDB){
+                i.childPrice = i.adultPrice * i.typeTicket.multiplier;
+                console.log(i);
+            }
+            return res.status(200).json(entertainmentDB);
+        } catch (e){
+            return res.status(409).json({message: err.message});
+        }
+    }
+};
 
+const entertainmentBill = {
+    add_entertainment_bill: async function(req, res){
+        try{
+            var newBill = EntertainmentBill(req.body);
+            await newBill.save();
+            res.status(200).json({message: 'Add entertainment bill success!'});
+        } catch (err){
+            return res.status(400).json({message: err.message});
+        }
+    },
+    get_all_bill: async function(req, res){
+        try{
+            
+            const bills = await EntertainmentBill.find().exec();
+            return res.status(200).json(bills);
+        } catch (err){
+            res.status(403).send({ success: false, message: err.message });
+        }
+    },
 }
 
-module.exports = entertainmentService
+const typeTicketController = {
+    add_type_ticket: async function(req, res){
+        try{
+            var newType = TypeTicketEntertainment(req.body);
+            await newType.save();
+            res.status(200).json({message: 'Add type ticket success!'});
+        } catch (err){
+            return res.status(400).json({message: err.message});
+        }
+    }
+}
+
+module.exports = {entertainmentService, entertainmentBill, typeTicketController}
