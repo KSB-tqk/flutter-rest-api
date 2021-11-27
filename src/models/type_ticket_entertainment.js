@@ -9,11 +9,11 @@ const typeTicketEntertainmentSchema = new Schema({
     },
     type: {
         type: Number,
-        required: true
+        required: true,
     },
-    multiplier: {
+    price: {
         type: Number,
-        default: 1,
+        required: true,
     }
 })
 

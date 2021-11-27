@@ -43,10 +43,6 @@ const entertainmentService = {
     get_all_entertainment: async function(req, res){
         try{
             const entertainmentDB = await Entertainment.find().populate("typeTicket").lean().exec();
-            for(let i of entertainmentDB){
-                i.childPrice = i.adultPrice * i.typeTicket.multiplier;
-                console.log(i);
-            }
             return res.status(200).json(entertainmentDB);
         } catch (e){
             return res.status(409).json({message: err.message});
