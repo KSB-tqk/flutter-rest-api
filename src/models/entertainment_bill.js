@@ -24,6 +24,10 @@ const entertainmentBillSchema = new Schema({
         totalPrice: {
             type: Number,
             required: true,
+        },
+        type: {
+            type: String, 
+            required: true,
         } // total price of 1 entertainment
     }],
     totalPrice: {
