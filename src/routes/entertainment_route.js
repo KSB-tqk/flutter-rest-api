@@ -32,7 +32,7 @@ router.use("/bill", billRouter);
 /**
  *  Add new entertainment bill
  */
-router.post('/bill/add', entertainmentBill.add_entertainment_bill);
+billRouter.post('/', entertainmentBill.add_entertainment_bill);
 /**
  *  Get all entertainment bill
  */
