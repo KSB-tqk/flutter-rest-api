@@ -63,14 +63,19 @@ const roomService = {
     },
     updatePaidStatus: async function(req, res){
         const {id} = req.params;
-        const {paidStatus} = req.body;
+        const {paidStatus, dateCreate} = req.body;
 
         if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).json({msg: `No Reservation with id: ${id}`});
            
         }
         try{
-            await reservationRoom.findByIdAndUpdate(id, {$set: {paidStatus},});
+            await reservationRoom.findByIdAndUpdate(
+                id, 
+                {
+                    $set: {paidStatus: paidStatus, dateCreate: dateCreate},
+                }
+            );
             res.status(201).json({msg: "Update request success"});
         } catch (err){
             res.status(409).json({msg: err.message});
@@ -87,6 +92,22 @@ const roomService = {
             res.status(201).json({msg: "Delete booking success"});
         } catch(err){
             res.status(409).json({msg: err.message});
+        }
+    },
+    get_room_bills_by_date: async function(req, res){
+        console.log(this.get_room_bills_by_date);
+        try {
+            const reservationDB = await reservationRoom.find({
+                dateCreate: {
+                    $gte: new Date(req.query.year, req.query.month-1, req.query.day), 
+                    $lt: new Date(req.query.year, req.query.month-1, req.query.day+1)
+                },
+                paidStatus: 1,
+            }).populate([{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
+            res.status(200).json(reservationDB);
+        } catch (e) {
+            console.log(e);
+            res.status(403).send({ success: false, msg: e.toString()})
         }
     }
 }

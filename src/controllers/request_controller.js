@@ -19,14 +19,15 @@ const requestService = {
 
     getRequestByDate: async function (req, res) {
         try {
-            Request.find({ date: req.query.date, status: req.query.status, type: req.query.type }, function (err, requestDb) {
-                var requestMap = {};
-
-                requestDb.forEach(function (request) {
-                    requestMap[request._id] = request;
-                });
-                res.status(200).send(requestMap);
+            const request = await Request.find({
+                date: {
+                    $gte: new Date(req.query.year, req.query.month-1, req.query.day), 
+                    $lt: new Date(req.query.year, req.query.month-1, req.query.day+1)
+                },
+                type: 1,
+                status: 1,
             });
+            res.status(200).json(request);
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
         }

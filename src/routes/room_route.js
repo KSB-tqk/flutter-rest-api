@@ -7,6 +7,7 @@ const routerBooking = express.Router({mergeParams: true})
 
 router.post('/', roomService.addRoom);
 router.get('/', roomService.getAllRoom);
+router.get('/find_room_bills', bookingService.get_room_bills_by_date);
 
 router.patch('/:id', bookingService.insertBooking);
 
@@ -15,6 +16,8 @@ routerBooking.get('/:id', bookingService.getAllReservationByRoomId);
 routerBooking.delete('/:id', bookingService.deleteBooking);
 routerBooking.get('/reservation_detail/:id', bookingService.getReservationDetail);
 routerBooking.patch('/update_paid_status/:id', bookingService.updatePaidStatus);
+
+
 
 
 module.exports = router 
