@@ -69,6 +69,19 @@ const entertainmentBill = {
             res.status(403).send({ success: false, message: err.message });
         }
     },
+    get_bills_of_the_day: async function(req, res){
+        try{
+            const bills = await EntertainmentBill.find({
+                dateCreate: {
+                    $gte: new Date(req.query.year, req.query.month-1, req.query.day), 
+                    $lt: new Date(req.query.year, req.query.month-1, req.query.day+1)
+                }
+            });
+            return res.status(200).json(bills);
+        } catch (err) {
+            res.status(403).send({message: err.message});
+        }
+    }
 }
 
 const typeTicketController = {
