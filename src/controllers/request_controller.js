@@ -26,7 +26,7 @@ const requestService = {
                 },
                 type: 1,
                 status: 1,
-            });
+            }).populate("staffId").exec();
             res.status(200).json(request);
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
