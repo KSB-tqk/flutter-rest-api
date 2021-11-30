@@ -22,28 +22,12 @@ var foodService = {
             })
         }
     },
-    getFood: async function (req, res){
-        try {
-            const food = await Food.findOne({
-                _id: req.params.id
-            }).exec()
-            if (!food) throw new Error("The Food does not exist");
-            res.status(200).json(food);
-        } catch (e) {
-            res.status(403).send({success: false, msg: e.toString()})
-        }
-    },
     getAllFood: async function (req, res){
             try {
-                Food.find({} ,function(err, foodDB){
-                    var foodMap ={}
-                    foodDB.forEach(function (request){
-                        foodMap[request._id] = request
-                    })
-                    res.status(200).send(foodMap)
-                })
+               const food = await Food.find().exec();
+               res.status(200).json(food);
             } catch (e) {
-                res.status(403).send({ success: false, msg: e.toString() })
+                res.status(403).send({success: false, msg: e.toString()})
             }
     },
     updateFood: async function (req, res){

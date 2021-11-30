@@ -10,6 +10,10 @@ var foodSchema = new Schema({
         type: Number,
         require: true,
     },
+    typeFood: {
+        type: Number,
+        required: true,
+    }
 })
 
 module.exports = mongoose.model('Food', foodSchema)
