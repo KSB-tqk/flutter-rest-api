@@ -10,7 +10,7 @@ var foodSchema = new Schema({
         type: Number,
         require: true,
     },
-    typeFood: {
+    foodType: {
         type: Number,
         required: true,
     }
