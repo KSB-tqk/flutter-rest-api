@@ -11,6 +11,7 @@ var foodService = {
             let newFood = new Food({
                 foodName: req.body.foodName,
                 foodPrice: req.body.foodPrice,
+                foodType: req.body.foodType
             });
 
             newFood.save(function (err, newFood) {
@@ -42,6 +43,14 @@ var foodService = {
             res.status(200).json({msg: "Update food is success"});
         } catch (err){
             res.status(409).json({ msg: err.message });
+        }
+    },
+    getFoodType: async function(req, res){
+        try {
+            const food = await Food.find({foodType: req.query.foodType}).exec();
+            res.status(200).json(food);
+        } catch (err){
+            res.status(400).json({message: err.message});
         }
     }
 }
