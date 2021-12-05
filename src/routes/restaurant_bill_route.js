@@ -8,9 +8,14 @@ router.post('/add', restaurant_bill_controller.addNew)
 
 //find restaurant bill by status
 // route GET /filter
-router.get('/filter', restaurant_bill_controller.getBillByStatus)
+router.get('/status', restaurant_bill_controller.getBillByStatus)
+
+router.get('/paid', restaurant_bill_controller.getBillByPaidStatus)
 
 //UPDATE bill status
-router.patch('/:id', restaurant_bill_controller.updateBillStatus)
+router.patch('/status/:id', restaurant_bill_controller.updateBillStatus)
+
+router.patch('/paid/:id', restaurant_bill_controller.updatePaidStatus)
+
 
 module.exports = router

@@ -39,6 +39,28 @@ var restaurantBillService = {
         } catch (error) {
             res.status(409).json({msg: error.msg});
         }
+    },
+    getBillByPaidStatus: async function(req, res){
+        try{
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate("staffID").exec();
+            return res.status(200).json(resBillDB);
+        } catch (error) {
+            res.status(403).send({ success: false, msg: e.toString() })
+        }
+    },
+    updatePaidStatus: async function(req, res){
+        const {id} = req.params;
+        const {paidStatus} = req.body;
+        if(!mongoose.Types.ObjectId.isValid(id))
+            return res.status(404).json({msg: "No Bill with id: ${id}"});
+        try {
+            await RestaurantBill.findByIdAndUpdate(id, {
+                $set: {paidStatus},
+            });
+            res.status(201).json({msg: "Update bill status success"});
+        } catch (error) {
+            res.status(409).json({msg: error.msg});
+        }
     }
 }
 
