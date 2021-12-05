@@ -12,6 +12,10 @@ var resBillSchema = new Schema({
             message: "{VALUE} is not an interger value",
         }
     },
+    paidStatus:{
+        type: Number,
+        default: 2,
+    },
     date:{
         type: String,
         required: true,
@@ -30,10 +34,6 @@ var resBillSchema = new Schema({
             type: Number,
             required: true,
         },
-        totalPrice: {
-            type: Number,
-            required: true,
-        } // total price of 1 food 
     }],
     totalPrice: {
         type: Number,
