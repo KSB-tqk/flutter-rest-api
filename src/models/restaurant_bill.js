@@ -20,7 +20,7 @@ var resBillSchema = new Schema({
         type: String,
         required: true,
     },
-    staffID: {
+    staffId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
