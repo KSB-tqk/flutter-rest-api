@@ -42,10 +42,10 @@ var restaurantBillService = {
     },
     getBillByPaidStatus: async function(req, res){
         try{
-            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate("staffID").exec();
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate("staffId");
             return res.status(200).json(resBillDB);
         } catch (error) {
-            res.status(403).send({ success: false, msg: e.toString() })
+            res.status(403).send({ success: false, message: err.message });
         }
     },
     updatePaidStatus: async function(req, res){
