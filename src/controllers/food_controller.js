@@ -52,6 +52,18 @@ var foodService = {
         } catch (err){
             res.status(400).json({message: err.message});
         }
+    },
+    deleteFood: async function(req, res){
+        const {id} = req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No Food with id: ${id}`});
+        }
+        try{
+            await Food.findByIdAndRemove(id);
+            res.status(200).json({message: "Delete Food is success"});
+        } catch (err){
+            res.status(400).json({message: err.message})
+        }
     }
 }
 
