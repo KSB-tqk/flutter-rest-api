@@ -13,17 +13,11 @@ var restaurantBillService = {
         })
     },
     getBillByStatus: async function (req, res) {
-        try {
-            RestaurantBill.find({status: req.query.status}, function(err, resbillDB){
-                var resBillMap = {};
-
-                resbillDB.forEach(function(resbill){
-                    resBillMap[resbill._id] = resbill
-                });
-                res.status(200).send(resBillMap);
-            })
-        } catch (e) {
-            res.status(403).send({success: false, msg: e.toString()})
+        try{
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.status}).populate([{path: 'staffId', model: 'User'},{path: 'food', model: 'Food'}]);
+            return res.status(200).json(resBillDB);
+        } catch (error) {
+            res.status(403).send({ success: false, message: error.message });
         }
     },
     updateBillStatus: async function(req, res){
@@ -42,17 +36,17 @@ var restaurantBillService = {
     },
     getBillByPaidStatus: async function(req, res){
         try{
-            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate([{path: 'staffId', model: 'User'},{path: 'food', model: 'Food'}]);
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate([{path: 'staffId'},{path: 'resBillDetail.food'}]);
             return res.status(200).json(resBillDB);
         } catch (error) {
-            res.status(403).send({ success: false, message: err.message });
+            res.status(403).send({ success: false, message: error.message });
         }
     },
     updatePaidStatus: async function(req, res){
         const {id} = req.params;
         const {paidStatus} = req.body;
         if(!mongoose.Types.ObjectId.isValid(id))
-            return res.status(404).json({msg: "No Bill with id: ${id}"});
+            return res.status(404).json({msg: `No Bill with id: ${id}`});
         try {
             await RestaurantBill.findByIdAndUpdate(id, {
                 $set: {paidStatus},
@@ -61,7 +55,19 @@ var restaurantBillService = {
         } catch (error) {
             res.status(409).json({msg: error.msg});
         }
-    }
+    },
+    deleteBill: async function(req, res){
+        const {id} = req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({msg: `No Bill with id: ${id}`});
+        }
+        try {
+            await RestaurantBill.findByIdAndRemove(id);
+            res.status(201).json({msg: "Delete bill status success"});
+        } catch (error) {
+            res.status(409).json({msg: error.msg});
+        }
+    },
 }
 
 module.exports = restaurantBillService

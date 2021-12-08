@@ -6,6 +6,8 @@ const router = express.Router()
 //route POST /add
 router.post('/add', restaurant_bill_controller.addNew)
 
+router.delete('/:id', restaurant_bill_controller.deleteBill)
+
 //find restaurant bill by status
 // route GET /filter
 router.get('/status', restaurant_bill_controller.getBillByStatus)
