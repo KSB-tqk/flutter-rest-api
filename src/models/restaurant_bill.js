@@ -27,7 +27,8 @@ var resBillSchema = new Schema({
     }, 
     resBillDetail: [{
         food: {
-            type: foodSchema,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Food',
             required: true,
         },
         quantity:{
