@@ -12,6 +12,7 @@ var foodSchema = new Schema({
     },
     foodType: {
         type: Number,
+        defaul: 1,
         
     }
 })
