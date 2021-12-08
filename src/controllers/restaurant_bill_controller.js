@@ -42,7 +42,7 @@ var restaurantBillService = {
     },
     getBillByPaidStatus: async function(req, res){
         try{
-            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate("staffId");
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate([{path: 'staffId', model: 'User'},{path: 'food', model: 'Food'}]);
             return res.status(200).json(resBillDB);
         } catch (error) {
             res.status(403).send({ success: false, message: err.message });
