@@ -28,7 +28,32 @@ var ingredientService = {
             })
         }
     },
+    deleteIngre: async function (req, res){
+        const{id} = req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No Ingredient with id: ${id}`});
+        }
+        try{
+            await Ingredient.findByIdAndRemove(id);
+            res.status(200).json({message: "Delete Ingredient is success"});
+        } catch (err){
+            res.status(400).json({message: err.message})
+        }
+    },
+    updateIngre: async function(req, res){
+        const{id} = req.params;
+        const{ingredientName, price, unit} = req.body;
 
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No Ingredient with id: ${id}`});
+        }
+        try{
+            await Ingredient.findByIdAndUpdate(id, {$set: {ingredientName: ingredientName, price: price, unit: unit}});
+            res.status(200).json({message: 'Update Ingredient sucess'});
+        } catch (err){
+            return res.status(409).json({message: err.message});
+        }
+    },
     getIngredient: async function (req, res) {
         try {
             const ingredient = await Ingredient.findOne({

@@ -12,6 +12,10 @@ router.get('/', ingredient_method.getAllIngre)
 
 router.get('/:id', ingredient_method.getIngredient)
 
+router.patch('/update/:id', ingredient_method.updateIngre)
+
+router.delete('/:id', ingredient_method.deleteIngre)
+
 
 
 module.exports = router
