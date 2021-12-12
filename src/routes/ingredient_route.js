@@ -5,7 +5,7 @@ const passport = require('passport')
 
 //add new ingredient
 //route POST /addIngredient
-router.post('/add', passport.authenticate('jwt', { session: false }), ingredient_method.addNew)
+router.post('/add', ingredient_method.addNew)
 //get user
 //route GET /getIngredient
 router.get('/', ingredient_method.getAllIngre)
