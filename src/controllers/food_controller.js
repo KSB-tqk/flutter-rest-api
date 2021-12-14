@@ -1,5 +1,8 @@
 var Food = require('../models/food')
 const mongoose = require('mongoose')
+const sharp = require("sharp")
+const Image = require('../models/image')
+const Constant = require("../utils/constant")
 
 var foodService = {
     addNew: async function (req, res){
@@ -7,20 +10,25 @@ var foodService = {
         if(foodDB){
             res.json({success: false, msg: 'Food already exits'})
         } else {
-            Food.init()
-            let newFood = new Food({
-                foodName: req.body.foodName,
-                foodPrice: req.body.foodPrice,
-                foodType: req.body.foodType
-            });
-
-            newFood.save(function (err, newFood) {
-                if(err){
-                    res.json({success: false, msg: 'Failed to Save New Food' + err})
-                } else {
-                    res.json({success: true, msg: 'Save Food Successfully!' })
-                }
-            })
+           const {foodName, foodPrice, foodType} = req.body;
+           let url ="";
+           try{
+               if(req.file){
+                   const buffer = await sharp(req.file.buffer).png().toBuffer();
+                   const image = await new Image({data: buffer}).save();
+                   url = `${Constant.imageDirection}/${image._id}`;
+               }
+               const foodDB = new Food({
+                   foodName: foodName,
+                   foodPrice: foodPrice,
+                   foodType: foodType,
+                   image: url,
+               });
+               const result = await foodDB.save();
+               res.status(200).json(result);
+           } catch (err){
+               res.status(409).json({message: err.message});
+           }
         }
     },
     getAllFood: async function (req, res){

@@ -12,6 +12,7 @@ router.get('/find_room_bills', bookingService.get_room_bills_by_date);
 router.patch('/:id', bookingService.insertBooking);
 
 router.use('/booking', routerBooking);
+routerBooking.get('/all', bookingService.getAllReservation);
 routerBooking.get('/:id', bookingService.getAllReservationByRoomId);
 routerBooking.delete('/:id', bookingService.deleteBooking);
 routerBooking.get('/reservation_detail/:id', bookingService.getReservationDetail);
