@@ -37,6 +37,14 @@ const roomService = {
             res.status(403).send({ success: false, msg: e.toString() });
         }
     },
+    getAllReservation: async function(req, res){
+        try{
+            const reservationDB = await reservationRoom.find().populate([{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
+            return res.status(200).json(reservationDB); 
+        } catch (err) {
+            res.status(404).json({msg: err.message});
+        }
+    },
     getReservationDetail: async function(req, res){
         const {id} = req.params;
         try{

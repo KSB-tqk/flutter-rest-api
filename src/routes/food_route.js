@@ -4,10 +4,11 @@ const router = express.Router()
 const passport = require('passport')
 const food = require('../models/food')
 const { route } = require('./restaurant_bill_route')
+const upload = require('../middleware/upload')
 
 //add new food 
 // route POST/addFood
-router.post('/add', passport.authenticate('jwt', {session: false}), food_controller.addNew);
+router.post('/add', upload.single("image") , food_controller.addNew);
 
 router.delete('/:id', food_controller.deleteFood);
 

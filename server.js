@@ -14,6 +14,7 @@ const foodRoute = require('./src/routes/food_route')
 const resBillRoute = require('./src/routes/restaurant_bill_route')
 const roomRoute = require('./src/routes/room_route')
 const entertainmentRoute = require('./src/routes/entertainment_route')
+const imageRoute = require('./src/routes/image_route')
 
 connectDB()
 
@@ -30,6 +31,8 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 require('./src/middleware/passport')(passport)
 
+app.use("/uploads", express.static("uploads"));
+
 app.use('/user', routes)
 app.use('/ingredient', ingredientRoute)
 app.use('/request', requestRoute)
@@ -37,6 +40,7 @@ app.use('/food', foodRoute)
 app.use('/resbill', resBillRoute)
 app.use('/room', roomRoute)
 app.use('/entertainment', entertainmentRoute)
+app.use('/image', imageRoute)
 
 const PORT = process.env.PORT || 3000
 

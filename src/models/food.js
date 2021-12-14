@@ -10,6 +10,11 @@ var foodSchema = new Schema({
         type: Number,
         require: true,
     },
+    image: {
+        type: String,
+        required: false,
+        default: "",
+    },
     foodType: {
         type: Number,
         defaul: 1,
