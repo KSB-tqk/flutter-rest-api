@@ -18,11 +18,14 @@ const requestService = {
     },
 
     getRequestByDate: async function (req, res) {
+        const day = new Date(req.query.year, req.query.month-1, req.query.day);
+        const nextDay = new Date(req.query.year, req.query.month-1, req.query.day);
+        nextDay.setDate(day.getDate() + 1);
         try {
             const request = await Request.find({
                 date: {
-                    $gte: new Date(req.query.year, req.query.month-1, req.query.day), 
-                    $lt: new Date(req.query.year, req.query.month-1, req.query.day+1)
+                    $gte: day, 
+                    $lt: nextDay,
                 },
                 type: 1,
                 status: 1,
@@ -35,6 +38,7 @@ const requestService = {
 
     getTypeofRequest: async function (req, res){
         try {
+          const today = new Date();
           const requestDB = await Request.find({ type: req.query.type}).populate("staffId").exec();
         //    for(let request in requestDB){
         //     request.staffId = await Staff.findById(request.staffId)
@@ -57,10 +61,21 @@ const requestService = {
         }
     },
     getAllRequest: async function(req, res){
+        const today = new Date();
+        const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        nextDay.setDate(day.getDate() + 1);
         try{
-            const requestDB = await Request.find().populate("staffId").exec();
+            const requestDB = await Request.find({
+            date: {
+                $gte: day, 
+                $lt: nextDay,
+              },
+            }).populate("staffId").exec();
+            
             return res.status(200).json(requestDB);
         } catch (e){
+            console.log(e);
             res.status(403).send({ success: false, msg: e.toString() })
         }
     },

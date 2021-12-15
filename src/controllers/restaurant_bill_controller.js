@@ -13,8 +13,17 @@ var restaurantBillService = {
         })
     },
     getBillByStatus: async function (req, res) {
+        const today = new Date();
+        const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        nextDay.setDate(day.getDate() + 1);
         try{
-            const resBillDB = await RestaurantBill.find({status: req.query.status}).populate([{path: 'staffId'},{path: 'resBillDetail.food'}]);
+            const resBillDB = await RestaurantBill.find({status: req.query.status, 
+                date: {
+                    $gte: day, 
+                    $lt: nextDay,
+                },
+            }).populate([{path: 'staffId'},{path: 'resBillDetail.food'}]);
             return res.status(200).json(resBillDB);
         } catch (error) {
             res.status(403).send({ success: false, message: error.message });
@@ -35,8 +44,17 @@ var restaurantBillService = {
         }
     },
     getBillByPaidStatus: async function(req, res){
+        const today = new Date();
+        const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        nextDay.setDate(day.getDate() + 1);
         try{
-            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus}).populate([{path: 'staffId'},{path: 'resBillDetail.food'}]);
+            const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus, 
+                date: {
+                    $gte: day, 
+                    $lt: nextDay,
+                },
+            }).populate([{path: 'staffId'},{path: 'resBillDetail.food'}]);
             return res.status(200).json(resBillDB);
         } catch (error) {
             res.status(403).send({ success: false, message: error.message });

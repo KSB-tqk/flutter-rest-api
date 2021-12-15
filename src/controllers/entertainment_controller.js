@@ -41,6 +41,7 @@ const entertainmentService = {
         }
     },
     get_all_entertainment: async function(req, res){
+       
         try{
             const entertainmentDB = await Entertainment.find().populate("typeTicket").lean().exec();
             return res.status(200).json(entertainmentDB);
@@ -61,9 +62,17 @@ const entertainmentBill = {
         }
     },
     get_all_bill: async function(req, res){
+        const today = new Date();
+        const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        nextDay.setDate(day.getDate() + 1);
         try{
-            
-            const bills = await EntertainmentBill.find().exec();
+            const bills = await EntertainmentBill.find({
+                dateCreate: {
+                    $gte: day, 
+                    $lt: nextDay,
+                  },
+            }).populate("staff").exec();
             return res.status(200).json(bills);
         } catch (err){
             res.status(403).send({ success: false, message: err.message });
