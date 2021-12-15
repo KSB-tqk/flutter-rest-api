@@ -47,9 +47,15 @@ var foodService = {
             return res.status(404).json({msg: `No food with id: ${id}`});
         }
         else{
-            if(!!req.file) image = req.file.paths;
+            let url ="";
             try {
-                await Food.findByIdAndUpdate(id, {$set: {foodPrice: foodPrice, image: image},});
+                if(req.file){
+                    const buffer = await sharp(req.file.buffer).png().toBuffer();
+                    const image = await new Image({data: buffer}).save();
+                    url = `${Constant.imageDirection}/${image._id}`;
+                }
+                const foodDB = await Food.findByIdAndUpdate(id, {$set: {foodPrice: foodPrice, image: url},}, {upsert: true,});
+                await foodDB.save();
                 res.status(200).json({msg: "Update food is success"});
             } catch (err){
                 res.status(409).json({ msg: err.message });

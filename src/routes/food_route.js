@@ -8,7 +8,9 @@ const upload = require('../middleware/upload')
 
 //add new food 
 // route POST/addFood
-router.post('/add', upload.single("image") , food_controller.addNew);
+router.post('/add', upload.single("image") , food_controller.addNew, (error, req, res, next) => {
+    res.status(400).send({ error: error.toString() });
+  });
 
 router.delete('/:id', food_controller.deleteFood);
 
@@ -19,7 +21,7 @@ router.get('/', food_controller.getAllFood);
 router.get('/type', food_controller.getFoodType);
 
 // update food
-router.patch('/:id', food_controller.updateFood);
+router.patch('/:id', upload.single("image"), food_controller.updateFood);
 
 
 
