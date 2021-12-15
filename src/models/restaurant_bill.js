@@ -17,7 +17,7 @@ var resBillSchema = new Schema({
         default: 2,
     },
     date:{
-        type: String,
+        type: Date,
         required: true,
     },
     staffId: {
