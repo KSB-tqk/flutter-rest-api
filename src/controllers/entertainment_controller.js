@@ -72,7 +72,7 @@ const entertainmentBill = {
                     $gte: day, 
                     $lt: nextDay,
                   },
-            }).populate("staff").exec();
+            }).populate(["staff",  'entertainBillDetail.entertainment.typeTicket']).exec();
             return res.status(200).json(bills);
         } catch (err){
             res.status(403).send({ success: false, message: err.message });
