@@ -96,7 +96,6 @@ const roomService = {
         }
         try{
             const reservation = await reservationRoom.findByIdAndRemove(id);
-            await reservation.save();
             res.status(201).json({msg: "Delete booking success"});
         } catch(err){
             res.status(409).json({msg: err.message});
