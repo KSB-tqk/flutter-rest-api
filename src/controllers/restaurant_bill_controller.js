@@ -48,6 +48,7 @@ var restaurantBillService = {
         const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         nextDay.setDate(day.getDate() + 1);
+        console.log(today);
         try{
             const resBillDB = await RestaurantBill.find({paidStatus: req.query.paidStatus, 
                 date: {

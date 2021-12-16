@@ -7,13 +7,13 @@ const routerBooking = express.Router({mergeParams: true})
 
 router.post('/', roomService.addRoom);
 router.get('/', roomService.getAllRoom);
-router.get('/find_room_bills', bookingService.get_room_bills_by_date);
+router.get('/paid_bills', bookingService.get_paid_room_bill_today);
 
 router.patch('/:id', bookingService.insertBooking);
 
 router.use('/booking', routerBooking);
 routerBooking.get('/all', bookingService.getAllReservation);
-routerBooking.get('/:id', bookingService.getAllReservationByRoomId);
+routerBooking.get('/:id', bookingService.getReservationByRoomId);
 routerBooking.delete('/:id', bookingService.deleteBooking);
 routerBooking.get('/reservation_detail/:id', bookingService.getReservationDetail);
 routerBooking.patch('/update_paid_status/:id', bookingService.updatePaidStatus);
