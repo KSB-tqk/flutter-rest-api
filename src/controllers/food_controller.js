@@ -41,20 +41,14 @@ var foodService = {
     },
     updateFood: async function (req, res){
         const {id} = req.params;
-        const{foodPrice, image} = req.body;
+        const{foodPrice, foodName} = req.body;
 
         if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).json({msg: `No food with id: ${id}`});
         }
         else{
-            let url ="";
             try {
-                if(req.file){
-                    const buffer = await sharp(req.file.buffer).png().toBuffer();
-                    const image = await new Image({data: buffer}).save();
-                    url = `${Constant.imageDirection}/${image._id}`;
-                }
-                const foodDB = await Food.findByIdAndUpdate(id, {$set: {foodPrice: foodPrice, image: url},}, {upsert: true,});
+                const foodDB = await Food.findByIdAndUpdate(id, {$set: {foodPrice: foodPrice, foodName: foodName},});
                 await foodDB.save();
                 res.status(200).json({msg: "Update food is success"});
             } catch (err){
