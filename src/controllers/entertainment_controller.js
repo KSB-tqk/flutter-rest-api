@@ -66,6 +66,7 @@ const entertainmentBill = {
         const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         nextDay.setDate(day.getDate() + 1);
+        console.log(nextDay);
         try{
             const bills = await EntertainmentBill.find({
                 dateCreate: {

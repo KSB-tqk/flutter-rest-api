@@ -28,7 +28,7 @@ const roomService = {
 }
 
  const bookingService = {
-    getAllReservationByRoomId: async function(req, res) {
+    getReservationByRoomId: async function(req, res) {
         const{id} = req.params;
         try{
             const roomDB = await reservationRoom.find({room: id}).populate( [{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
@@ -102,15 +102,19 @@ const roomService = {
             res.status(409).json({msg: err.message});
         }
     },
-    get_room_bills_by_date: async function(req, res){
-        console.log(this.get_room_bills_by_date);
+    get_paid_room_bill_today: async function(req, res){
+        const today = new Date();
+        const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        nextDay.setDate(day.getDate() + 1);
+        console.log(nextDay);
         try {
             const reservationDB = await reservationRoom.find({
-                dateCreate: {
-                    $gte: new Date(req.query.year, req.query.month-1, req.query.day), 
-                    $lt: new Date(req.query.year, req.query.month-1, req.query.day+1)
-                },
                 paidStatus: 1,
+                dateCreate: {
+                    $gte: day, 
+                    $lt: nextDay
+                },
             }).populate([{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
             res.status(200).json(reservationDB);
         } catch (e) {
