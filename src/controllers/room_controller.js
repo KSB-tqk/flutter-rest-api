@@ -24,6 +24,24 @@ const roomService = {
             console.log(e)
         }
     },
+    updateRoom: async function(req, res){
+        const {id} = req.params;
+        const {roomPrice} = req.body;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({msg: `No Room with id: ${id}`});
+        }
+        try{
+            console.log(req.body);
+            await Room.findByIdAndUpdate(id, {$set: {
+                roomPrice: roomPrice
+            },
+        });
+            res.status(200).json({message: `Update Room success!`});
+        } catch (err){
+            console.log(err);
+            res.status(400).json({message: err.message});
+        }
+    }
     
 }
 
