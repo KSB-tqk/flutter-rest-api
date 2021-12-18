@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Room = require('../models/room')
 const reservationRoom = require('../models/reservation_room');
-const room = require('../models/room');
 
 const roomService = {
     addRoom: async function(req, res) {
@@ -31,7 +30,6 @@ const roomService = {
             return res.status(404).json({msg: `No Room with id: ${id}`});
         }
         try{
-            console.log(req.body);
             await Room.findByIdAndUpdate(id, {$set: {
                 roomPrice: roomPrice
             },
@@ -79,9 +77,9 @@ const roomService = {
             return res.status(404).json({msg: `No Room with id: ${id}`});
         }
         try{
-            const reservation = new reservationRoom({room: id,...req.body});
-            console.log(reservation);
-            await reservation.save();
+            const newBooking = new reservationRoom({room: id,...req.body});
+            console.log(newBooking);
+            await newBooking.save();
             res.status(201).json({msg: "Update Room success"});
         } catch (err){
             res.status(409).json({ msg: err.message });

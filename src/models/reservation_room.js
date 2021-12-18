@@ -42,4 +42,10 @@ const reservationRoomSchema = new Schema({
     }
 })
 
+reservationRoomSchema.pre("save", async function (next) {
+    console.log(this);
+    console.log(this.isNew)
+    next();
+  });
+
 module.exports = mongoose.model('ReservationRoom', reservationRoomSchema);
