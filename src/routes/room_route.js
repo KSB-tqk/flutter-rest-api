@@ -10,9 +10,10 @@ router.patch('/:id', roomService.updateRoom);
 router.get('/', roomService.getAllRoom);
 router.get('/paid_bills', bookingService.get_paid_room_bill_today);
 
-router.patch('/:id', bookingService.insertBooking);
+router.post('/:id', bookingService.insertBooking);
 
 router.use('/booking', routerBooking);
+routerBooking.post('/:id', bookingService.insertBooking);
 routerBooking.get('/all', bookingService.getAllReservation);
 routerBooking.get('/:id', bookingService.getReservationByRoomId);
 routerBooking.delete('/:id', bookingService.deleteBooking);
