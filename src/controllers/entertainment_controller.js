@@ -16,14 +16,28 @@ const entertainmentService = {
     },
     update_entertainment: async function(req, res){
         const{id} = req.params;
-        const{entertainName, entertainPrice} = req.body;
+        const{typeTicket} = req.body;
 
         if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(404).json({message: `No entertainment with id: ${id}`});
         }
         try{
-            await Entertainment.findByIdAndUpdate(id, {$set: {entertainName: entertainName, entertainPrice: entertainPrice}});
+            await Entertainment.findByIdAndUpdate(id, {$push: {typeTicket: typeTicket}});
             res.status(200).json({message: 'Update Entertainment sucess'});
+        } catch (err){
+            return res.status(409).json({message: err.message});
+        }
+    },
+    delete_ticket_in_entertainment: async function(req, res){
+        const{id} = req.params;
+        const{typeTicket} = req.body;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(404).json({message: `No entertainment with id: ${id}`});
+        }
+        try{
+            await Entertainment.findByIdAndUpdate(id, {$pull: {typeTicket: typeTicket}});
+            res.status(200).json({message: 'Delete Ticket in Entertainment sucess'});
         } catch (err){
             return res.status(409).json({message: err.message});
         }
@@ -102,6 +116,40 @@ const typeTicketController = {
             res.status(200).json({message: 'Add type ticket success!'});
         } catch (err){
             return res.status(400).json({message: err.message});
+        }
+    },
+    update_type_ticket: async function(req, res){
+        const {id} = req.params;
+        const{price} = req.body;
+
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(400).json({message: `No Type Ticket with id: ${id}`});
+        }
+        try{
+            await TypeTicketEntertainment.findByIdAndUpdate(id, {$set: { price: price}});
+            res.status(200).json({message: 'Update Type Ticket sucess'});
+        } catch (err){
+            return res.status(400).json({message: err.message});
+        }
+    },
+    delete_type_ticket: async function(req, res){
+        const{id} = req.params;
+        if(!mongoose.Types.ObjectId.isValid(id)){
+            return res.status(400).json({message: `No Type Ticket with id: ${id}`});
+        }
+        try{
+            await TypeTicketEntertainment.findByIdAndRemove(id);
+            res.status(200).json({message: 'Delete Type Ticket sucess'});
+        } catch (err){
+            return res.status(400).json({message: err.message});
+        }
+    },
+    get_all_type_ticket: async function(req, res){
+        try{
+            const typeTicketDB = await TypeTicketEntertainment.find().exec();
+            return res.status(200).json(typeTicketDB);
+        } catch (e){
+            return res.status(409).json({message: err.message});
         }
     }
 }

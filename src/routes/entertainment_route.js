@@ -5,6 +5,7 @@ const entertainment_bill = require('../models/entertainment_bill');
 
 const router = express.Router();
 const billRouter = express.Router({mergeParams: true});
+const typeTicketRouter = express.Router({mergeParams: true});
 
 /**
  *  Add new entertainment
@@ -16,10 +17,9 @@ router.post('/', entertainmentService.add_entertainment);
 router.get('/', entertainmentService.get_all_entertainment);
 
 router.get('/find_entertainment_bills_by_date', entertainmentBill.get_bills_of_the_day);
-/**
- *  Get all entertainment
- */
- router.post('/type', typeTicketController.add_type_ticket);
+
+router.patch('/delete_ticket_in_entertainment/:id', entertainmentService.delete_ticket_in_entertainment);
+
 /**
  *  update a entertainment
  */
@@ -40,5 +40,18 @@ billRouter.post('/', entertainmentBill.add_entertainment_bill);
  *  Get all entertainment bill
  */
 billRouter.get('/', entertainmentBill.get_all_bill);
+
+router.use("/type_ticket", typeTicketRouter);
+/**
+ *  Get all entertainment
+ */
+
+typeTicketRouter.post('/', typeTicketController.add_type_ticket);
+
+typeTicketRouter.patch('/:id', typeTicketController.update_type_ticket);
+
+typeTicketRouter.delete('/:id', typeTicketController.delete_type_ticket);
+
+typeTicketRouter.get('/all', typeTicketController.get_all_type_ticket);
 
 module.exports = router 
