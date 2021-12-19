@@ -3,14 +3,6 @@ const passport = require('passport')
 const action = require('../controllers/staff_controller')
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.send('Hello World')
-})
-
-router.get('/dashboard', (req, res) => {
-    res.send('Dashboard')
-})
-
 //add new user
 //route POST /adduser
 router.post('/add', action.addNew)
