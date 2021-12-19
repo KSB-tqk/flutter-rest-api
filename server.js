@@ -15,6 +15,7 @@ const resBillRoute = require('./src/routes/restaurant_bill_route')
 const roomRoute = require('./src/routes/room_route')
 const entertainmentRoute = require('./src/routes/entertainment_route')
 const imageRoute = require('./src/routes/image_route')
+const reportRoute = require('./src/routes/report_route')
 
 connectDB()
 
@@ -41,6 +42,7 @@ app.use('/resbill', resBillRoute)
 app.use('/room', roomRoute)
 app.use('/entertainment', entertainmentRoute)
 app.use('/image', imageRoute)
+app.use('/report', reportRoute)
 
 const PORT = process.env.PORT || 3000
 
