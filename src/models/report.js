@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 
 reportSchema = new Schema({
     reportName: {
-        type: Number,
+        type: String,
         require: true,
     },
     date: {
