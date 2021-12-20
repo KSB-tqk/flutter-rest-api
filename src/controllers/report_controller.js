@@ -94,7 +94,7 @@ var reportService = {
         //console.log(nextDay);
         try {
             const report = await Report.find({
-                dateCreate: {
+                date: {
                     $gte: day,
                     $lt: nextDay,
                 },
