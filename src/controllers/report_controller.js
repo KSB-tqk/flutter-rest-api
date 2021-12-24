@@ -80,7 +80,7 @@ var reportService = {
     },
     getAllReport: async function (req, res) {
         try {
-            var report = await Report.find().exec();
+            var report = await Report.find().populate(["staff"]).exec();
             res.status(200).json(report)
         } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() })
