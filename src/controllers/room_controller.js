@@ -39,6 +39,34 @@ const roomService = {
             console.log(err);
             res.status(400).json({message: err.message});
         }
+    },
+    findRoom: async function(req, res){
+        const rooms = await Room.find().exec();
+        const reservationDB = await reservationRoom.find().exec();
+        const{checkIn, checkOut} = req.query;
+        let timeCheckIn = new Date(checkIn);
+        let timeCheckOut = new Date(checkOut);
+        // console.log(checkIn);
+        // console.log(checkOut);
+        // console.log(timeCheckIn);
+        // console.log(timeCheckOut);
+        let roomEmpty = rooms.filter(room => {
+            let checkRoom = true;
+            reservationDB.map(reservation => {
+                if(JSON.stringify(room._id) === JSON.stringify(reservation.room)) {
+                    if (timeCheckIn >= reservation.checkIn && timeCheckIn <= reservation.checkOut || 
+                        timeCheckOut >= reservation.checkIn && timeCheckOut <= reservation.checkOut || 
+                        timeCheckIn <= reservation.checkIn && timeCheckOut >= reservation.checkOut ) {
+                        checkRoom = false
+                    }
+                }
+            })
+            if(checkRoom) {
+                return room
+            }
+        })
+        console.log(roomEmpty.length);
+        res.status(200).json(roomEmpty);
     }
     
 }
