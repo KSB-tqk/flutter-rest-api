@@ -8,6 +8,7 @@ const routerBooking = express.Router({mergeParams: true})
 router.post('/', roomService.addRoom);
 router.patch('/:id', roomService.updateRoom);
 router.get('/', roomService.getAllRoom);
+router.get('/find_room', roomService.findRoom);
 router.get('/paid_bills', bookingService.get_paid_room_bill_today);
 
 router.post('/:id', bookingService.insertBooking);
