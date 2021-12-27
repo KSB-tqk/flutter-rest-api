@@ -3,121 +3,122 @@ const Room = require('../models/room')
 const reservationRoom = require('../models/reservation_room');
 
 const roomService = {
-    addRoom: async function(req, res) {
-        try{
-        var newRoom = new Room(req.body);
+    addRoom: async function (req, res) {
+        try {
+            var newRoom = new Room(req.body);
 
-        await newRoom.save();
-        res.status(201).json({msg: "Create room success"});
-        } catch (err){
-            res.status(400).json({msg: err.message});
+            await newRoom.save();
+            res.status(201).json({ msg: "Create room success" });
+        } catch (err) {
+            res.status(400).json({ msg: err.message });
         }
     },
-    getAllRoom: async function(req, res){
-        try{
-            
+    getAllRoom: async function (req, res) {
+        try {
+
             const roomDB = await Room.find().exec();
             return res.status(200).json(roomDB);
-        } catch (e){
+        } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() });
             console.log(e)
         }
     },
-    updateRoom: async function(req, res){
-        const {id} = req.params;
-        const {roomPrice} = req.body;
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            return res.status(404).json({msg: `No Room with id: ${id}`});
+    updateRoom: async function (req, res) {
+        const { id } = req.params;
+        const { roomPrice } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: `No Room with id: ${id}` });
         }
-        try{
-            await Room.findByIdAndUpdate(id, {$set: {
-                roomPrice: roomPrice
-            },
-        });
-            res.status(200).json({message: `Update Room success!`});
-        } catch (err){
+        try {
+            await Room.findByIdAndUpdate(id, {
+                $set: {
+                    roomPrice: roomPrice
+                },
+            });
+            res.status(200).json({ message: `Update Room success!` });
+        } catch (err) {
             console.log(err);
-            res.status(400).json({message: err.message});
+            res.status(400).json({ message: err.message });
         }
     }
-    
+
 }
 
- const bookingService = {
-    getReservationByRoomId: async function(req, res) {
-        const{id} = req.params;
-        try{
-            const roomDB = await reservationRoom.find({room: id}).populate( [{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
+const bookingService = {
+    getReservationByRoomId: async function (req, res) {
+        const { id } = req.params;
+        try {
+            const roomDB = await reservationRoom.find({ room: id }).populate([{ path: 'staffId', model: 'User' }, { path: 'room', model: 'Room' }]);
             return res.status(200).json(roomDB);
-        } catch (e){
+        } catch (e) {
             res.status(403).send({ success: false, msg: e.toString() });
         }
     },
-    getAllReservation: async function(req, res){
-        try{
-            const reservationDB = await reservationRoom.find().populate([{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
-            return res.status(200).json(reservationDB); 
+    getAllReservation: async function (req, res) {
+        try {
+            const reservationDB = await reservationRoom.find().populate([{ path: 'staffId', model: 'User' }, { path: 'room', model: 'Room' }]);
+            return res.status(200).json(reservationDB);
         } catch (err) {
-            res.status(404).json({msg: err.message});
+            res.status(404).json({ msg: err.message });
         }
     },
-    getReservationDetail: async function(req, res){
-        const {id} = req.params;
-        try{
+    getReservationDetail: async function (req, res) {
+        const { id } = req.params;
+        try {
             const reservationDB = await reservationRoom.findById(id).populate("room");
             return res.status(200).json(reservationDB);
         } catch (err) {
-            res.status(404).json({msg: err.message});
+            res.status(404).json({ msg: err.message });
         }
     },
-    insertBooking: async function(req, res){
-        const {id} = req.params;
+    insertBooking: async function (req, res) {
+        const { id } = req.params;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            return res.status(404).json({msg: `No Room with id: ${id}`});
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: `No Room with id: ${id}` });
         }
-        try{
-            const newBooking = new reservationRoom({room: id,...req.body});
+        try {
+            const newBooking = new reservationRoom({ room: id, ...req.body });
             console.log(newBooking);
             await newBooking.save();
-            res.status(201).json({msg: "Update Room success"});
-        } catch (err){
+            res.status(201).json({ msg: "Update Room success" });
+        } catch (err) {
             res.status(409).json({ msg: err.message });
         }
     },
-    updatePaidStatus: async function(req, res){
-        const {id} = req.params;
-        const {paidStatus, dateCreate} = req.body;
+    updatePaidStatus: async function (req, res) {
+        const { id } = req.params;
+        const { paidStatus, dateCreate } = req.body;
 
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            return res.status(404).json({msg: `No Reservation with id: ${id}`});
-           
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: `No Reservation with id: ${id}` });
+
         }
-        try{
+        try {
             await reservationRoom.findByIdAndUpdate(
-                id, 
+                id,
                 {
-                    $set: {paidStatus: paidStatus, dateCreate: dateCreate},
+                    $set: { paidStatus: paidStatus, dateCreate: dateCreate },
                 }
             );
-            res.status(201).json({msg: "Update request success"});
-        } catch (err){
-            res.status(409).json({msg: err.message});
+            res.status(201).json({ msg: "Update request success" });
+        } catch (err) {
+            res.status(409).json({ msg: err.message });
         }
     },
-    deleteBooking: async function(req, res){
-        const {id} = req.params;
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            return res.status(404).json({msg: `No Booking with id: ${id} `});
+    deleteBooking: async function (req, res) {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ msg: `No Booking with id: ${id} ` });
         }
-        try{
+        try {
             const reservation = await reservationRoom.findByIdAndRemove(id);
-            res.status(201).json({msg: "Delete booking success"});
-        } catch(err){
-            res.status(409).json({msg: err.message});
+            res.status(201).json({ msg: "Delete booking success" });
+        } catch (err) {
+            res.status(409).json({ msg: err.message });
         }
     },
-    get_paid_room_bill_today: async function(req, res){
+    get_paid_room_bill_today: async function (req, res) {
         const today = new Date();
         const day = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         const nextDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -127,16 +128,27 @@ const roomService = {
             const reservationDB = await reservationRoom.find({
                 paidStatus: 1,
                 dateCreate: {
-                    $gte: day, 
+                    $gte: day,
                     $lt: nextDay
                 },
-            }).populate([{path: 'staffId', model: 'User'},{path: 'room', model: 'Room'}]);
+            }).populate([{ path: 'staffId', model: 'User' }, { path: 'room', model: 'Room' }]);
             res.status(200).json(reservationDB);
         } catch (e) {
             console.log(e);
-            res.status(403).send({ success: false, msg: e.toString()})
+            res.status(403).send({ success: false, msg: e.toString() })
+        }
+    },
+    get_all_paid_room_bill: async function (req, res) {
+        try {
+            const reservationDB = await reservationRoom.find({
+                paidStatus: 1,
+            }).populate([{ path: 'staffId', model: 'User' }, { path: 'room', model: 'Room' }]);
+            res.status(200).json(reservationDB);
+        } catch (e) {
+            console.log(e);
+            res.status(403).send({ success: false, msg: e.toString() })
         }
     }
 }
 
-module.exports = {roomService, bookingService}
+module.exports = { roomService, bookingService }

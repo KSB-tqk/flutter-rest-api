@@ -1,11 +1,11 @@
 const express = require('express');
 const { route } = require('.');
-const {entertainmentService, entertainmentBill, typeTicketController} = require('../controllers/entertainment_controller');
+const { entertainmentService, entertainmentBill, typeTicketController } = require('../controllers/entertainment_controller');
 const entertainment_bill = require('../models/entertainment_bill');
 
 const router = express.Router();
-const billRouter = express.Router({mergeParams: true});
-const typeTicketRouter = express.Router({mergeParams: true});
+const billRouter = express.Router({ mergeParams: true });
+const typeTicketRouter = express.Router({ mergeParams: true });
 
 /**
  *  Add new entertainment
@@ -37,9 +37,13 @@ router.use("/bill", billRouter);
  */
 billRouter.post('/', entertainmentBill.add_entertainment_bill);
 /**
+ *  Get all entertainment bill of the day
+ */
+billRouter.get('/', entertainmentBill.get_bills_of_the_day);
+/**
  *  Get all entertainment bill
  */
-billRouter.get('/', entertainmentBill.get_all_bill);
+billRouter.get('/get_all_biil', entertainmentBill.get_all_bill);
 
 router.use("/type_ticket", typeTicketRouter);
 /**

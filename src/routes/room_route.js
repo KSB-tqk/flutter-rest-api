@@ -9,6 +9,7 @@ router.post('/', roomService.addRoom);
 router.patch('/:id', roomService.updateRoom);
 router.get('/', roomService.getAllRoom);
 router.get('/paid_bills', bookingService.get_paid_room_bill_today);
+router.get('/all_paid_bills', bookingService.get_all_paid_room_bill);
 
 router.post('/:id', bookingService.insertBooking);
 

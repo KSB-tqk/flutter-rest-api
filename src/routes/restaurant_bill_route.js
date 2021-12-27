@@ -14,6 +14,8 @@ router.get('/status', restaurant_bill_controller.getBillByStatus)
 
 router.get('/paid', restaurant_bill_controller.getBillByPaidStatus)
 
+router.get('/get_all_paid', restaurant_bill_controller.getAllBillByPaidStatus)
+
 //UPDATE bill status
 router.patch('/status/:id', restaurant_bill_controller.updateBillStatus)
 
