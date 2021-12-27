@@ -16,6 +16,7 @@ const roomRoute = require('./src/routes/room_route')
 const entertainmentRoute = require('./src/routes/entertainment_route')
 const imageRoute = require('./src/routes/image_route')
 const reportRoute = require('./src/routes/report_route')
+const riskRoute = require('./src/routes/risk_bill_route')
 
 connectDB()
 
@@ -33,7 +34,7 @@ app.use(passport.initialize())
 require('./src/middleware/passport')(passport)
 
 app.use("/uploads", express.static("uploads"));
-
+app.use('/risk', riskRoute)
 app.use('/user', routes)
 app.use('/ingredient', ingredientRoute)
 app.use('/request', requestRoute)
