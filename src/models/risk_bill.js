@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var riskBillSchema = new Schema({
-    troubleName: {
+    riskName: {
         type: String,
         require: true
     },
