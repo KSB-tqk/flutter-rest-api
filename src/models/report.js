@@ -27,6 +27,10 @@ reportSchema = new Schema({
         type: Number,
         require: true,
     },
+    riskBillTotal: {
+        type: Number,
+        require: true,
+    },
     outflowBillTotal: {
         type: Number,
         require: true,
