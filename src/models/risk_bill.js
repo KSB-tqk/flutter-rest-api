@@ -10,6 +10,14 @@ var riskBillSchema = new Schema({
         type: String,
         default: "Empty"
     },
+    customerName: {
+        type: String,
+        require: true
+    },
+    customerPhoneNumber: {
+        type: String,
+        require: true
+    },
     date: {
         type: Date,
         required: true,
