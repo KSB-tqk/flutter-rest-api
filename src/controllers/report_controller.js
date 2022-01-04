@@ -104,5 +104,24 @@ var reportService = {
             res.status(403).send({ success: false, message: err.message });
         }
     },
+
+    getAllReportFromDayToDay: async function (req, res) {
+        const { startDay, endDay } = req.query;
+        let theStartDay = new Date(startDay);
+        let theEndDay = new Date(endDay);
+        console.log(theStartDay);
+        console.log(theEndDay);
+        try {
+            const report = await Report.find({
+                date: {
+                    $gte: theStartDay,
+                    $lt: theEndDay,
+                },
+            }).populate(["staff"]).exec();
+            return res.status(200).json(report);
+        } catch (err) {
+            res.status(403).send({ success: false, message: err.message });
+        }
+    },
 }
 module.exports = reportService

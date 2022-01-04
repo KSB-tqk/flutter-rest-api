@@ -12,6 +12,8 @@ router.get('/', report_method.getAllReport)
 
 router.get('/get_report_by_date', report_method.getAllReportByDate)
 
+router.get('/fromDtoD', report_method.getAllReportFromDayToDay)
+
 router.get('/:id', report_method.getReport)
 
 router.patch('/update/:id', report_method.updateReport)
