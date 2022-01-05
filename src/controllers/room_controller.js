@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Room = require('../models/room')
 const reservationRoom = require('../models/reservation_room');
+const moment = require('moment')
 
 const roomService = {
     addRoom: async function (req, res) {
@@ -45,8 +46,8 @@ const roomService = {
         const rooms = await Room.find().exec();
         const reservationDB = await reservationRoom.find().exec();
         const{checkIn, checkOut} = req.query;
-        let timeCheckIn = new Date(checkIn);
-        let timeCheckOut = new Date(checkOut);
+        let timeCheckIn = moment(checkIn).startOf("day").toDate();
+        let timeCheckOut =  moment(checkOut).endOf("day").toDate();
         // console.log(checkIn);
         // console.log(checkOut);
         // console.log(timeCheckIn);
